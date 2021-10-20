@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .item {
+      display: flex;
+      width: 500px;
+    }
+    .page {
+      display: flex;
+    }
+    .prev, .next {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px;
+    }
+  </style>
+  <script src="./data.json"></script>
+</head>
+<body>
+  <div class="wrap">
+    <div class="content"></div>
+    <div class="page">
+      <button class="prev">上</button>
+      <div class="pageNum">1</div>
+      <button class="next">下</button>
+    </div>
+  </div>
+  <script>
+    const oContent = document.querySelector('.content')
+    const oNext = document.querySelector('.next')
+    const page = 10
+    // const total = Math.ceil(DATA.array / page)
+    const total = 10
+    let pageNum = 1
+    let isPending = false
+    function insertItem(pageNum) {
+      const time = (300 - 100) * Math.random() + 100
+      console.log(time)
+      isPending = true
+      setTimeout(() => {
+        const dom = DATA.array.filter((_, i) => i >= ((pageNum - 1) * page) && i < (pageNum * page)).map((v) => {
+          return `<div class="item">
+            <div class="item-title">${v.name}</div>
+            <a class="item-id" href="./detail.html?id=${v.id}" target="_blank">${v.id}</a>
+          </div>`
+        }).join('')
+        oContent.innerHTML = dom
+        updateDom()
+        isPending = false
+      }, time);
+    }
+
+    function updateDom() {
+      document.querySelector('.pageNum').innerHTML = pageNum
+    }
+
+    insertItem(pageNum)
+    document.querySelector('.prev').addEventListener('click', () => {
+      if (isPending) return
+      oNext.removeAttribute('disabled')
+      pageNum -= 1
+      if (pageNum < 1) pageNum = 1
+      insertItem(pageNum)
+    })
+    oNext.addEventListener('click', () => {
+      if (isPending || oNext.getAttribute('disabled')) return
+      pageNum += 1
+      oNext.removeAttribute('disabled')
+      if (pageNum > total) {
+        pageNum = total
+        oNext.setAttribute('disabled', 'disabled')
+      }
+      insertItem(pageNum)
+    })
+  </script>
+</body>
+</html>
