@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import TestSidepanel from './Test.sidepanel.vue'
 import { storageDemo } from '~/logic/storage'
 
 function openOptionsPage() {
@@ -18,5 +19,7 @@ function openOptionsPage() {
     <div class="mt-2">
       <span class="opacity-50">Storage:</span> {{ storageDemo }}
     </div>
+
+    <TestSidepanel />
   </main>
 </template>

@@ -1,7 +1,7 @@
 /*
  * @Author: Lu
  * @Date: 2025-03-17 22:49:09
- * @LastEditTime: 2025-03-17 23:13:31
+ * @LastEditTime: 2025-03-17 23:31:06
  * @LastEditors: Lu
  * @Description:
  */
@@ -34,8 +34,8 @@ export async function getCurrentTab() {
   return tab
 }
 
-export async function checkTabStatus(tabId: number) {
-  const result = await new Promise((resolve) => {
+export async function checkTabStatus(tabId: number): Promise<boolean> {
+  const result = await new Promise<boolean>((resolve) => {
     chrome.tabs.get(tabId, (tab) => {
       if (chrome.runtime.lastError) {
         resolve(true)

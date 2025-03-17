@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useToggle } from '@vueuse/core'
 import 'uno.css'
+import TestPage from './Test.page.vue'
 
 const [show, toggle] = useToggle(false)
 </script>
@@ -26,5 +27,7 @@ const [show, toggle] = useToggle(false)
     >
       <pixelarticons-power class="block m-auto text-white text-lg" />
     </button>
+
+    <TestPage />
   </div>
 </template>
