@@ -1,7 +1,7 @@
 <!--
  * @Author: Lu
  * @Date: 2025-03-17 23:35:23
- * @LastEditTime: 2025-03-17 23:36:31
+ * @LastEditTime: 2025-03-18 22:49:20
  * @LastEditors: Lu
  * @Description:
 -->
@@ -21,25 +21,25 @@ const shotLogList = computed(() => {
   return logList.value.map(v => v.formattedMessage)
 })
 
+async function getTab() {
+  const { data } = await sendMsgBySP<undefined, chrome.tabs.Tab>(EVENTS.SP2BG_GET_CURRENT_TAB, undefined, { destination: CetDestination.BG })
+  return data
+}
+
 async function start() {
   logger.info('开始执行')
-  logger.info('检查标签页')
-  const { data } = await sendMsgBySP<undefined, chrome.tabs.Tab>(EVENTS.SP2BG_GET_CURRENT_TAB, undefined, { destination: CetDestination.BG })
-  if (!data?.id) {
-    logger.error('标签页不存在')
-    return
-  }
-  logger.info(`当前标签页：${data.id} ${data.url}`)
   // const ins = new CetActuator(getTest1(), {
   const ins = new CetActuator(getTasks(), {
+    // @ts-ignore
     getTabId: async () => {
-      return data.id as number
+      const tab = await getTab()
+      console.log('tab', tab?.id)
+      return tab ? tab.id : undefined
     },
     taskBeforeCb: (task) => {
       logger.info(`${task.name} 开始执行`)
     },
     taskAfterCb: (task, result) => {
-      // logger.info(serializeJSON(logItem))
       logger.info(`${task.name} 执行结束 ${result ? '成功' : '失败'}`)
     },
   })
