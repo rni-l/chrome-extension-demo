@@ -1,11 +1,11 @@
 /*
  * @Author: Lu
  * @Date: 2025-03-17 22:49:09
- * @LastEditTime: 2025-03-17 23:31:06
+ * @LastEditTime: 2025-03-18 23:53:06
  * @LastEditors: Lu
  * @Description:
  */
-import { injectInterceptRequest } from 'chrome-extension-tools'
+import { injectRequest } from './injectCaptureRequest'
 import { asyncWait } from '~/utils'
 
 const targetDomains = [
@@ -15,7 +15,7 @@ const checkDomains = [
   'https://www.baidu.com',
 ]
 function injectInterceptRequestBg() {
-  injectInterceptRequest('./dist/background/interceptRequest.mjs', targetDomains)
+  injectRequest(['./dist/background/interceptRequest.mjs'], targetDomains)
 }
 export function checkAndInjectDomain(cacheTabInject: Record<string, boolean>, tabId: number, url?: string) {
   if (cacheTabInject[tabId])

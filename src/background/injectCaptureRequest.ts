@@ -1,22 +1,20 @@
 /*
  * @Author: Lu
  * @Date: 2025-03-17 22:48:19
- * @LastEditTime: 2025-03-17 22:48:39
+ * @LastEditTime: 2025-03-18 23:53:34
  * @LastEditors: Lu
  * @Description:
  */
-export function injectRequest() {
+export function injectRequest(js: string[], match: string[]) {
   chrome.scripting.registerContentScripts([
     {
       id: 'dddd',
-      js: ['./dist/background/intercept-request.mjs'],
+      js,
       // runAt: 'document_idle',
       world: 'MAIN',
       persistAcrossSessions: false,
 
-      matches: [
-        'https://www.baidu.com/*',
-      ],
+      matches: match,
     },
   ])
 }

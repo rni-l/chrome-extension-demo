@@ -1,7 +1,7 @@
 /*
  * @Author: Lu
  * @Date: 2025-03-17 23:25:20
- * @LastEditTime: 2025-03-18 22:59:21
+ * @LastEditTime: 2025-03-18 23:50:05
  * @LastEditors: Lu
  * @Description:
  */
@@ -13,7 +13,7 @@ import {
   loopCheck,
   sendMsgBySP,
 } from 'chrome-extension-tools'
-import { EVENT_CHECK_TAB_STATUS_SP2BG, EVENT_OPEN_URL_SP2BG, EVENT_REMOVE_TAB_SP2BG } from '~/constants'
+import { EVENT_CHECK_TAB_STATUS_SP2BG, EVENT_INJECT_INTERCEPT_SCRIPT_SP2BG, EVENT_OPEN_URL_SP2BG, EVENT_RELOAD_SP2BG, EVENT_REMOVE_TAB_SP2BG } from '~/constants'
 
 export const logger = new CetLogger({
   level: CetLogLevel.INFO,
@@ -22,6 +22,7 @@ export const logger = new CetLogger({
 export enum TaskNames {
   open = '打开网页',
   check = '检查网页',
+  intercept = '拦截请求',
   input = '输入内容',
   click = '点击按钮',
   close = '关闭网页',
@@ -57,6 +58,26 @@ export function getTasks(): CetWorkFlowConfigure[] {
         })
         return {
           next,
+        }
+      },
+    },
+    {
+      name: TaskNames.intercept,
+      spBeforeFn: async () => {
+        await sendMsgBySP(EVENT_INJECT_INTERCEPT_SCRIPT_SP2BG, {}, { destination: CetDestination.BG })
+        await sendMsgBySP(EVENT_RELOAD_SP2BG, {}, { destination: CetDestination.BG })
+        return {
+          next: true,
+        }
+      },
+      spAfterFn: async (params) => {
+        const result = await sendMsgBySP<{ tabId?: number }, boolean>(
+          EVENT_CHECK_TAB_STATUS_SP2BG,
+          { tabId: params.tabId },
+          { destination: CetDestination.BG },
+        )
+        return {
+          next: !!result.data,
         }
       },
     },

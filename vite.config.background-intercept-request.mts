@@ -1,7 +1,7 @@
 /*
  * @Author: Lu
  * @Date: 2025-03-17 22:40:35
- * @LastEditTime: 2025-03-17 22:40:46
+ * @LastEditTime: 2025-03-18 23:56:01
  * @LastEditors: Lu
  * @Description:
  */
@@ -40,7 +40,7 @@ export default defineConfig({
           if (chunk.name === 'main')
             return 'index.mjs'
           else
-            return 'intercept-request.mjs'
+            return 'interceptRequest.mjs'
         },
         extend: true,
       },
