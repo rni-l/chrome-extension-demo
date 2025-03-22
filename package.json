@@ -52,7 +52,7 @@
     "@vueuse/core": "^11.0.1",
     "axios": "^1.8.3",
     "chokidar": "^3.6.0",
-    "chrome-extension-tools": "^0.0.6",
+    "chrome-extension-tools": "^0.0.7",
     "cross-env": "^7.0.3",
     "crx": "^5.0.1",
     "eslint": "^9.9.0",

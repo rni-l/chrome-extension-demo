@@ -5,7 +5,3 @@
  * @LastEditors: Lu
  * @Description:
  */
-export interface IEventRemoveTabParams {
-  tabId: number
-  pending?: number // 等待时间
-}

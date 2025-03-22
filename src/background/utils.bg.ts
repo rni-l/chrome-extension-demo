@@ -1,7 +1,7 @@
 /*
  * @Author: Lu
  * @Date: 2025-03-17 22:49:09
- * @LastEditTime: 2025-03-18 23:53:06
+ * @LastEditTime: 2025-03-22 22:33:27
  * @LastEditors: Lu
  * @Description:
  */
@@ -34,26 +34,3 @@ export async function getCurrentTab() {
   return tab
 }
 
-export async function checkTabStatus(tabId: number): Promise<boolean> {
-  const result = await new Promise<boolean>((resolve) => {
-    chrome.tabs.get(tabId, (tab) => {
-      if (chrome.runtime.lastError) {
-        resolve(true)
-        return
-      }
-
-      if (!tab) {
-        resolve(true)
-        return
-      }
-
-      const isLoaded = tab.status === 'complete'
-      resolve(isLoaded)
-    })
-  })
-  if (!result) {
-    await asyncWait(200)
-    return checkTabStatus(tabId)
-  }
-  return result
-}

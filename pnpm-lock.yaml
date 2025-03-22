@@ -57,8 +57,8 @@ importers:
         specifier: ^3.6.0
         version: 3.6.0
       chrome-extension-tools:
-        specifier: ^0.0.6
-        version: 0.0.6
+        specifier: ^0.0.7
+        version: 0.0.7
       cross-env:
         specifier: ^7.0.3
         version: 7.0.3
@@ -1527,8 +1527,8 @@ packages:
     resolution: {integrity: sha512-7VT13fmjotKpGipCW9JEQAusEPE+Ei8nl6/g4FBAmIm0GOOLMua9NDDo/DWp0ZAxCr3cPq5ZpBqmPAQgDda2Pw==}
     engines: {node: '>= 8.10.0'}
 
-  chrome-extension-tools@0.0.6:
-    resolution: {integrity: sha512-U9wNC/XhZbQqD30Q+gRAi5EBXykoZNMjz0Dw1IJlpCP2OucQSDX4+ltT4Y72eby2os1EiwqjhsqHfrD38QXDdw==}
+  chrome-extension-tools@0.0.7:
+    resolution: {integrity: sha512-LxITbqfjz0PVZt6C7zVXk5mL2OvMzVF9g4EhhMC5CZElpvbDznVIXJ8QvYT4Y0rG9dn5KwArNFnxVUhHbVC9XA==}
     engines: {node: '>=18'}
 
   chrome-launcher@0.15.1:
@@ -6131,7 +6131,7 @@ snapshots:
     optionalDependencies:
       fsevents: 2.3.3
 
-  chrome-extension-tools@0.0.6:
+  chrome-extension-tools@0.0.7:
     dependencies:
       dayjs: 1.11.13
 
