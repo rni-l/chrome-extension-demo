@@ -1,7 +1,7 @@
 /*
  * @Author: Lu
  * @Date: 2025-03-17 23:25:20
- * @LastEditTime: 2025-03-18 23:50:05
+ * @LastEditTime: 2025-03-30 12:45:51
  * @LastEditors: Lu
  * @Description:
  */
@@ -12,8 +12,9 @@ import {
   CetLogger,
   loopCheck,
   sendMsgBySP,
+  EVENTS
 } from 'chrome-extension-tools'
-import { EVENT_CHECK_TAB_STATUS_SP2BG, EVENT_INJECT_INTERCEPT_SCRIPT_SP2BG, EVENT_OPEN_URL_SP2BG, EVENT_RELOAD_SP2BG, EVENT_REMOVE_TAB_SP2BG } from '~/constants'
+import { EVENT_INJECT_INTERCEPT_SCRIPT_SP2BG } from '~/constants'
 
 export const logger = new CetLogger({
   level: CetLogLevel.INFO,
@@ -33,7 +34,7 @@ export function getTasks(): CetWorkFlowConfigure[] {
     {
       name: TaskNames.open,
       spBeforeFn: async () => {
-        sendMsgBySP(EVENT_OPEN_URL_SP2BG, { url: 'https://www.baidu.com' }, { destination: CetDestination.BG })
+        sendMsgBySP(EVENTS.EVENT_OPEN_URL_SP2BG, { url: 'https://www.baidu.com' }, { destination: CetDestination.BG })
         return {
           next: true,
         }
@@ -43,7 +44,7 @@ export function getTasks(): CetWorkFlowConfigure[] {
       name: TaskNames.check,
       spBeforeFn: async (params) => {
         const result = await sendMsgBySP<{ tabId?: number }, boolean>(
-          EVENT_CHECK_TAB_STATUS_SP2BG,
+          EVENTS.EVENT_CHECK_TAB_STATUS_SP2BG,
           { tabId: params.tabId },
           { destination: CetDestination.BG },
         )
@@ -65,14 +66,14 @@ export function getTasks(): CetWorkFlowConfigure[] {
       name: TaskNames.intercept,
       spBeforeFn: async () => {
         await sendMsgBySP(EVENT_INJECT_INTERCEPT_SCRIPT_SP2BG, {}, { destination: CetDestination.BG })
-        await sendMsgBySP(EVENT_RELOAD_SP2BG, {}, { destination: CetDestination.BG })
+        await sendMsgBySP(EVENTS.EVENT_RELOAD_SP2BG, {}, { destination: CetDestination.BG })
         return {
           next: true,
         }
       },
       spAfterFn: async (params) => {
         const result = await sendMsgBySP<{ tabId?: number }, boolean>(
-          EVENT_CHECK_TAB_STATUS_SP2BG,
+          EVENTS.EVENT_CHECK_TAB_STATUS_SP2BG,
           { tabId: params.tabId },
           { destination: CetDestination.BG },
         )
@@ -130,7 +131,7 @@ export function getTasks(): CetWorkFlowConfigure[] {
         }
       },
       spAfterFn: async (params) => {
-        sendMsgBySP(EVENT_REMOVE_TAB_SP2BG, { tabId: params.tabId }, { destination: CetDestination.BG })
+        sendMsgBySP(EVENTS.EVENT_REMOVE_TAB_SP2BG, { tabId: params.tabId }, { destination: CetDestination.BG })
         logger.info(params.csFnResult.data)
         return {
           next: true,
